@@ -18,7 +18,7 @@ export function Map({navigation}) {
 
         const insertId = addData(destination);
         if(!insertId){
-            alert("Não foi possivel inserir o novo animal")
+            alert("Não foi possivel inserir o novo destino")
         }
 
         setAction('map')
