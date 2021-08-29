@@ -1,6 +1,7 @@
 import React from 'react';
-import {TextInput, View} from 'react-native';
+import {ActivityIndicator, TextInput, View} from 'react-native';
 import MapView from "react-native-maps";
+import * as Location from "expo-location";
 import {Destination} from '../../sqlite/modules/destinations/destination'
 import {Button} from '../../ui/Button'
 import {addData} from "../../sqlite/modules/destinations/addData";
@@ -9,6 +10,9 @@ export function Map({navigation}) {
     const [marker, setMarker] = React.useState(null);
     const [action, setAction] = React.useState('map') // map or addDestination
     const [destinationTitle, setDestinationTitle] = React.useState('')
+
+    const [location, setLocation] = React.useState(null);
+    const [errorMsg, setErrorMsg] = React.useState(null);
 
     function handleAddDestination() {
         const destination = new Destination();
@@ -28,12 +32,43 @@ export function Map({navigation}) {
         navigation.navigate('Início')
     }
 
+    React.useEffect(() => {
+        (async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                setErrorMsg('Permission to access location was denied');
+                return;
+            }
+
+            let location = await Location.getCurrentPositionAsync({accuracy: 6});
+
+            console.log(location)
+            setLocation(location);
+        })();
+    }, []);
+
     return (
         <>
-            {action === 'map' &&
+            {!location &&
+                <ActivityIndicator
+                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 8 }}
+                    color='#F40002'
+                />
+            }
+
+            {action === 'map' && location &&
                 <MapView
                     style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end', padding: 8 }}
-                    onPress={(e) => setMarker(e.nativeEvent.coordinate)}>
+                    provider='google'
+                    showsUserLocation
+                    initialRegion={{
+                        latitude: location.coords.latitude,
+                        longitude: location.coords.longitude,
+                        latitudeDelta: 0.2,
+                        longitudeDelta: 0.2
+                    }}
+                    onPress={(e) => setMarker(e.nativeEvent.coordinate)}
+                >
                     <>
                         {marker && <MapView.Marker coordinate={marker} />}
                     </>

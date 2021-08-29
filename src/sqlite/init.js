@@ -6,21 +6,16 @@ export function init() {
         { sql: 'PRAGMA foreign_keys = ON;', args: [] }
     ], false, () => console.log('Foreign keys turned on'))
 
-    const sql = [
-        `create table if not exists destinations (
-            id integer primary key autoincrement,
-            title text,
-            latitude real,
-            longitude real
-           );`
-    ]
+    const sqlCreation = `create table if not exists destinations (
+        id integer primary key autoincrement,
+        title text,
+        latitude real,
+        longitude real
+    );`
 
     db.transaction(
         tx => {
-            for (let i = 0; i < sql.length; i++) {
-                console.log("execute sql : " + sql[i])
-                tx.executeSql(sql[i]);
-            }
+            tx.executeSql(sqlCreation)
         }, (error) => {
             console.log("error call back : " + JSON.stringify(error))
             console.log(error);

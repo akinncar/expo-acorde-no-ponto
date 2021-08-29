@@ -1,4 +1,5 @@
 import React from 'react';
+import {StatusBar} from "react-native";
 
 import Routes from "./src/routes";
 import {init} from "./src/sqlite/init";
@@ -10,7 +11,10 @@ export default function App() {
   }, [])
 
   return (
-    <Routes />
+    <>
+      <StatusBar barStyle='dark-content'/>
+      <Routes />
+    </>
   );
 }
 

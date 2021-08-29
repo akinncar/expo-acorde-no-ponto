@@ -1,6 +1,6 @@
 import React from 'react';
 import {Dimensions, FlatList, Text, View} from "react-native";
-import { useIsFocused } from "@react-navigation/core";
+import {useIsFocused} from "@react-navigation/core";
 import {findAll} from "../../sqlite/modules/destinations/findAll";
 import {ListItem} from "./ListItem";
 import {deleteById} from "../../sqlite/modules/destinations/deleteById";
@@ -16,7 +16,7 @@ export function Home() {
 
     async function getDestinations() {
         const response = await findAll()
-        setDestnations(response._array)
+        setDestnations(response._array || [])
     }
 
     async function deleteDestination(id) {
