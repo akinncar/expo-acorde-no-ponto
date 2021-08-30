@@ -17,7 +17,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.acordenoponto",
+      "buildNumber": "1.0.0",
+      "infoPlist": {
+        "UIBackgroundModes": [ "location", "fetch" ]
+      }
     },
     "android": {
       "adaptiveIcon": {

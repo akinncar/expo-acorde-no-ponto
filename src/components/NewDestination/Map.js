@@ -47,15 +47,17 @@ export function Map({navigation}) {
         })();
     }, []);
 
+    if(!location) {
+        return (
+            <ActivityIndicator
+                style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 8 }}
+                color='#F40002'
+            />
+        )
+    }
+
     return (
         <>
-            {!location &&
-                <ActivityIndicator
-                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 8 }}
-                    color='#F40002'
-                />
-            }
-
             {action === 'map' && location &&
                 <MapView
                     style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end', padding: 8 }}

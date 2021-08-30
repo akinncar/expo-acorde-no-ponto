@@ -8,7 +8,7 @@ import {deleteById} from "../../sqlite/modules/destinations/deleteById";
 export function Home() {
     const isFocused = useIsFocused();
 
-    const [destinations, setDestnations] = React.useState([])
+    const [destinations, setDestnations] = React.useState([]);
 
     React.useEffect(() => {
         if(isFocused) getDestinations()
