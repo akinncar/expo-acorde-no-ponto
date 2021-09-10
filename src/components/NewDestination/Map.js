@@ -40,7 +40,17 @@ export function Map({navigation}) {
                 return;
             }
 
-            let location = await Location.getCurrentPositionAsync({accuracy: 6});
+            let location;
+            let locationSuccess = false;
+            while(!locationSuccess) {
+                try{
+                    location = await Location.getCurrentPositionAsync({ accuracy:Location.Accuracy.High });
+                    locationSuccess = true;
+                } catch( ex ){
+                    // Bug: https://github.com/expo/expo/issues/9377
+                    console.log("Location failed - Retrying...");
+                }
+            }
 
             console.log(location)
             setLocation(location);
